@@ -56,9 +56,18 @@ th {
 }
 
 .d_disabled {
-    color: gray;
-    background-color: Gainsboro;
-    font-weight: normal;
+    position: relative;
+}
+
+.d_disabled:after {
+    content: '\A';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
 }
 
 .d_selected {

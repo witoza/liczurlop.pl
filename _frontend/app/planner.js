@@ -70,7 +70,7 @@ function make_callendar() {
 
     var a4 = $(minus_icon_html).click(function () {
         user_data.callendar_begin = next_month(user_data.callendar_begin);
-        // user_data.opts.from = next_month(user_data.opts.from);
+        user_data.opts.from = next_month(user_data.opts.from);
 
         refresh_data_after_adjust_callendar();
     });
