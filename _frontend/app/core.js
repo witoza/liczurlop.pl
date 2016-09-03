@@ -8,7 +8,7 @@ function is_empty(str) {
 }
 
 function translate(id) {
-    return id;
+    return TRANSLATE['pl'].translate(id);
 }
 
 Date.prototype.fmtMMDDYYYY = function () {

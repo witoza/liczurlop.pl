@@ -57,14 +57,13 @@ app.use('/', function (req, res, next) {
     next();
 });
 
-var BACKEND = {};
+var STORAGE = {};
 
-BACKEND["wito"] = {
+STORAGE["wito"] = {
     meta: {
         uid: "wito",
         username: "witold z",
         created_time: new Date(),
-        last_updated_time: null,
     },
     callendar_begin: "01/01/2016",
     callendar_end: "02/01/2017",
@@ -130,12 +129,8 @@ function user_data_default(uid) {
         meta: {
             uid: uid,
             username: null,
-            locale: null,
             created_time: new Date(),
-            last_updated_time: null,
-            last_updated_ip: null,
         },
-        country: "poland",
         callendar_begin: "01/01/2016",
         callendar_end: "02/01/2017",
         opts: {
@@ -147,7 +142,7 @@ function user_data_default(uid) {
             holiday_on_sat_extends_holiday: true,
             do_not_overlap_with_blacklist_days: true
         },
-        show_blacklist_days: false,
+        show_blacklist_days: true,
         holidays_taken: [],
         selected_drange: null,
         selected_leave_days: 15
@@ -160,10 +155,10 @@ app.post('/user/:uid', function (req, res, next) {
 
     console.log("getting user profile", uid);
 
-    if (BACKEND[uid] === undefined) {
+    if (STORAGE[uid] === undefined) {
         res.json(user_data_default(uid));
     } else {
-        res.json(BACKEND[uid]);
+        res.json(STORAGE[uid]);
     }
 
 });
@@ -171,11 +166,10 @@ app.post('/user/:uid', function (req, res, next) {
 app.post('/user/remove/:id', function (req, res, next) {
     var uid = req.params.id;
     console.log("removing user profile", uid);
-    delete BACKEND[uid];
+    delete STORAGE[uid];
 
     res.send({
-        "uid": uid,
-        "rc": result.rowCount
+        "uid": uid
     });
 
 });
@@ -185,16 +179,15 @@ app.post('/user/save/:id', function (req, res, next) {
 
     console.log("saving user profile", uid);
 
-    if (uid == "new") {
+    if (uid === "new") {
         uid = chance.word({length: 10});
         console.log("creating new user", uid);
     }
 
     var user = JSON.parse(req.body);
     user.meta.uid = uid;
-    user.meta.last_updated_time = new Date();
 
-    BACKEND[uid] = user;
+    STORAGE[uid] = user;
 
     res.send({
         "uid": uid,

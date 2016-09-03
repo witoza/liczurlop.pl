@@ -313,31 +313,12 @@ function make_summary(obj) {
             });
         });
 
-    var a = make.a(make.b("Skyscanner"))
-        .click(function () {
-
-            function format_for_skyscanner(day) {
-                function pad(val) {
-                    if (val < 10) return "0" + val;
-                    return val;
-                }
-
-                return "15" + pad(day.getMonth() + 1) + pad(day.getDate());
-            }
-
-            var from = format_for_skyscanner(obj.start_date);
-            var to = format_for_skyscanner(obj.end_date);
-            var url = "http://www.skyscanner.pl/transport/loty-z/waw/" + from + "/" + to + "/";
-            window.open(url, '_blank');
-        });
 
     var li = $("<ul class='fa-ul'>");
 
     var icon = '<i class="fa-li fa fa-angle-double-right"></i>';
     li.append(make.node("li", icon).append(translate("Add as a ")).append(a2));
     li.append(make.node("li", icon).append(translate("Add as a ")).append(a3));
-    li.append(make.node("li", "&nbsp;"));
-    li.append(make.node("li", icon).append(translate("Search flight in ")).append(a));
 
     nd.append(li);
 
@@ -690,7 +671,7 @@ function make_holidays_taken() {
             });
         total.append(aa);
     } else {
-        total = "<br/><p><i>" + translate("Psst, use button above to add new Holiday.") + "</i></p>";
+        total = "<br/>";
     }
     return make.div()
         .append(make.legend(translate("Leave days")))

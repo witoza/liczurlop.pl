@@ -73,8 +73,8 @@
 					<input type="text" class="input-sm form-control" size="7" name="start" id="h_from"/>
 					<span class="input-group-addon">Do</span>
 					<input type="text" class="input-sm form-control" size="7" name="end" id="h_to"/>
-				</div>			
-				<b>Wskazówka:</b> Kliknij na nazwę miesiąca lub na dni na Kalendarzu aby zaznaczyć (zawęzić) dni, od których rozpocznie się wyszukiwanie urlopu. 
+				</div>
+				<b>Wskazówka:</b> Kliknij na nazwę miesiąca lub na dni na Kalendarzu aby zaznaczyć (zawęzić) dni, od których rozpocznie się wyszukiwanie urlopu.
 				<div class="checkbox">
 					<label>
 						<input type="checkbox" style="margin: 1px 0 0 -20px;" id="opt_do_not_overlap_with_blacklist_days">
@@ -106,60 +106,54 @@
 <body>
 	<div class="container">
 
-		<span style="cursor:default">
+        <div class="row" style="cursor:default">
+            <div class="col-md-3">
+                <div align='center' >
+                    <h1 style="margin-bottom:0px">LiczUrlop.pl</h1>
+                    <p><small><i> &mdash; ponieważ urlopy się liczą</i></small></p>
+                    <div id="ajax_loader">
+                        <i class="fa fa-spinner fa-spin"></i> Ładuje ...
+                    </div>
 
-			<div class="row">
-				<div class="col-md-3">
-					<div align='center' >
-						<h1 style="margin-bottom:0px">LiczUrlop.pl</h1>
-						<p><small><i> &mdash; ponieważ urlopy się liczą</i></small></p>
-						<div id="ajax_loader">
-							<i class="fa fa-spinner fa-spin"></i> Ładuje ...
-						</div>
+                    <div id="div_show_logged_user" style="display: none;">
+                        Zalogowany jako
+                        <span class="clickable" id="user_seetings_id">
+                            <i class="fa fa-user"></i> <b id="username"></b>
+                        </span>
+                        <span class="clickable" id="sign_out">
+                            <i class="fa clickable fa-power-off"></i>
+                        </span>
+                    </div>
+                    <div id="div_show_login" style="display: none;">
+                        <div class="form-inline">
+                            <input type="text" class="form-control input-sm" size = "10" placeholder="Username ..." id="login_name" />
+                            <button type="button" class="btn btn-primary btn-sm" id="log_me_in">go!</button>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div id='holidays_taken_id'></div>
+                <br/>
+                <div id='blacklist_days_id'></div>
+            </div>
 
-						<div id="div_show_logged_user" style="display: none;">
-							Zalogowany jako
-							<span class="clickable" id="user_seetings_id">
-								<i class="fa fa-user"></i> <b id="username"></b>
-							</span>
-							<span class="clickable" id="sign_out">
-								&nbsp;
-								<i class="fa clickable fa-power-off"></i>
-								&nbsp;
-							</span>
-						</div>
-						<div id="div_show_login" style="display: none;">
-							<div class="form-inline">
-								<input type="text" class="form-control input-sm" size = "10" placeholder="Username ..." id="login_name" />
-								<button type="button" class="btn btn-primary btn-sm" id="log_me_in">go!</button>
-							</div>
-						</div>
-					</div>
-					<br/>
-					<div id='holidays_taken_id'></div>
-					<br/>
-					<div id='blacklist_days_id'></div>
-<hr/>
-				</div>
+            <div class="col-md-9">
+                <p></p>
+                <div id='calendar_id'></div>
 
-				<div class="col-md-9">
-					<p>&nbsp;</p>
-					<div id='calendar_id'></div>
-
-					<div class="row">
-						<div class="col-md-8">
-							<div id='options_id'></div>
-							<div id='results_id'></div>
-						</div>
-						<div class="col-md-4">
-							<br/>
-							<div id='summary_id'></div>
-						</div>
-					</div>
-					<br/>
-				</div>
-			</div>
-		</span>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div id='options_id'></div>
+                        <div id='results_id'></div>
+                    </div>
+                    <div class="col-md-4">
+                        <br/>
+                        <div id='summary_id'></div>
+                    </div>
+                </div>
+                <br/>
+            </div>
+        </div>
 
 		<hr/>
 
