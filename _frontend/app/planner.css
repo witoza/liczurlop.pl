@@ -1,0 +1,110 @@
+html {overflow-y: scroll;}
+
+.container {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+.clickable:hover {
+	color: #4183c4;
+	cursor: pointer;
+	
+	background-color: #eee;
+	border-radius: 4px;
+}
+
+body {
+	font: 13px arial,helvetica,clean,sans-serif;
+}
+
+table{	
+	border: 0px;
+	border-spacing: 0;
+	text-align: center;
+	font-size: 12px;
+}
+
+td, th {
+	padding: 2px;
+	border: 1px solid white;
+	border-top: 0;
+	border-right: 0;
+	
+	border-bottom-color: #f1f1f1
+}
+
+th {
+	text-align: center
+}
+
+.w_month {
+	text-align: right;
+}
+
+.d_day_Sa {
+	background-color: Pink;
+}
+
+.d_day_Su {
+	background-color: Plum;
+}
+
+.fiesta {
+	background-color: Gold;
+	font-weight: bold;
+}
+
+.d_start_holiday {
+	padding: 0px;
+	border: 2px solid MediumSlateBlue;
+	
+	padding-top: 1px;
+	padding-left: 1px;
+}
+
+.d_disabled {
+	color: gray;
+	background-color: Gainsboro;
+	font-weight: normal;
+}
+
+.d_selected {
+	background-color: Salmon;
+	border-radius: 2px;
+}
+
+.d_hover_menu {
+	cursor: pointer;
+	color: #23527c;
+	background-color: #eee;
+	border-radius: 4px;
+}
+
+.d_holiday_teken_selected_calendar {
+	color: white;
+	background-color: #4183c4;
+	border-radius: 5px;
+}
+
+.d_blacklist_selected_calendar {
+	color: white;
+	background-color: #2F2727;
+	border-radius: 5px;
+}
+
+.d_hover_calendar {
+	color: black;
+	background-color: rgb(181, 199, 255);
+	border-radius: 5px;
+}
+
+.footer_legal {
+	color:#cbcccd;
+	text-align:center;
+	margin:0;
+	padding:0;
+}
+
+hr {
+	margin-bottom: 5px;
+}

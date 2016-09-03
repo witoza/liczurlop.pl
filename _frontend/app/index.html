@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Licz Urlop</title>
+
+	<link href="favicon.ico" rel="icon" type="image/x-icon" />
+
+	<script type="text/javascript" src="_bc/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="_bc/handlebars/handlebars.min.js"></script>
+	<script type="text/javascript" src="_bc/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="_bc/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript" src="_bc/momentjs/min/moment-with-locales.min.js"></script>
+	<script type="text/javascript" src="_bc/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="_bc/bootstrap/dist/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="_bc/bootstrap/dist/css/bootstrap-theme.min.css"/>
+	<link rel="stylesheet" type="text/css" href="_bc/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css"/>
+	<link rel="stylesheet" type="text/css" href="_bc/components-font-awesome/css/font-awesome.css"/>
+	<link rel="stylesheet" type="text/css" href="_bc/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css"/>
+	<link rel="stylesheet" type="text/css" href="planner.css"/>
+
+	<script type="text/javascript" src="config-local.js"></script>
+	<script type="text/javascript" src="countries.js"></script>
+	<script type="text/javascript" src="core.js"></script>
+	<script type="text/javascript" src="locale.js"></script>
+	<script type="text/javascript" src="planner.js"></script>
+
+	<script id="summary_template" type="text/x-handlebars-template">
+
+		<legend>Wybrany zakres dat
+		<button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close_summary"><span aria-hidden="true">&times;</span></button>
+		</legend>
+
+		<ul class='fa-ul'>
+			<li><i class="fa-li fa fa-angle-right"></i>Rozpoczyna się we <b>{{v1}}</b></li>
+			<li><i class="fa-li fa fa-angle-right"></i>Kończy <b>{{v2}}</b></li>
+			<li><i class="fa-li fa fa-angle-right"></i>{{v3}}</li>
+			<li><i class="fa-li fa fa-angle-right"></i>Liczba dni urlopu w pracy {{v4}}</li>
+			<li><i class="fa-li fa fa-angle-right"></i>Łączna liczba dni urlopu {{v5}}</li>
+
+			{{#if holiday_on_sat_extends_holiday}}
+			<li><i class="fa-li fa fa-angle-right"></i>
+			Liczba świąt przypadających w sobote {{v6}}
+			{{#if v6_details}}
+				- każdy taki dzień przedłuża długość wyszukanego urlopu o jeden dzień. <b>Uwaga</b>: to pracodawca wskazuje na dzień odbioru takiego dnia.
+			{{/if}}
+			</li>
+			{{/if}}
+		</ul>
+
+	</script>
+
+	<script id="options_template" type="text/x-handlebars-template">
+		<br/>
+		<legend>Wyszukiwanie najdłuższego urlopu</legend>
+		<div class="form-inline">
+			<label for="leave_days_id">Liczba dni urlopu</label>
+			<input type="text" class="form-control input-sm" style="height:22px;" id="leave_days_id" size="1" />
+			<button type="button" class="btn btn-primary btn-xs" id="do_search">szukaj</button>
+			<button type="button" class="btn btn-default btn-xs" id="do_show_more_options">opcje</button>
+			&nbsp;
+			<button type="button" class="btn btn-success btn-xs" id="close_summary">wyczyść</button>
+		</div>
+
+		<div id="more_options" >
+			<div class="form-group">
+				<label for="datepicker_d1">Ogranicz kalendarz</label>
+				<div class="input-daterange input-group" id="datepicker_d1">
+					<span class="input-group-addon">Od</span>
+					<input type="text" class="input-sm form-control" size="7" name="start" id="h_from"/>
+					<span class="input-group-addon">Do</span>
+					<input type="text" class="input-sm form-control" size="7" name="end" id="h_to"/>
+				</div>			
+				<b>Wskazówka:</b> Kliknij na nazwę miesiąca lub na dni na Kalendarzu aby zaznaczyć (zawęzić) dni, od których rozpocznie się wyszukiwanie urlopu. 
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" style="margin: 1px 0 0 -20px;" id="opt_do_not_overlap_with_blacklist_days">
+						Nie przecinaj dni z
+					</label>
+					<a id='show_blacklist_days' href='javascript:void(0);'>Czarnej listy</a>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" style="margin: 1px 0 0 -20px;" id="opt_start_in_the_mid_week">
+						<i class="fa fa-plane with_tooltip" title="Ceny lotów zaczynających sie w środku tygodnia są zazwyczaj tańsze"></i>
+						Rozpocznij urlop w środku tygodnia (Wt, Śr, Czw)
+					</label>
+				</div>
+				 <div class="checkbox">
+					 <label>
+						<input type="checkbox" style="margin: 1px 0 0 -20px;" id="opt_finish_in_the_mid_week">
+						<i class="fa fa-plane with_tooltip" title="Ceny lotów kończących sie w środku tygodnia są zazwyczaj tańsze"></i>
+						Zakończ urlop w środku tygodnia (Wt, Śr, Czw)
+					</label>
+				</div>
+			</div>
+		</div>
+
+	</script>
+
+</head>
+
+<body>
+	<div class="container">
+
+		<span style="cursor:default">
+
+			<div class="row">
+				<div class="col-md-3">
+					<div align='center' >
+						<h1 style="margin-bottom:0px">Moje Urlopy</h1>
+						<p><small><i> &mdash; ponieważ wakacje się liczą</i></small></p>
+						<div id="ajax_loader">
+							<i class="fa fa-spinner fa-spin"></i> Ładuje ...
+						</div>
+
+						<div id="div_show_logged_user" style="display: none;">
+							Zalogowany jako
+							<span class="clickable" id="user_seetings_id">
+								<i class="fa fa-user"></i> <b id="username"></b>
+							</span>
+							<span class="clickable" id="sign_out">
+								&nbsp;
+								<i class="fa clickable fa-power-off"></i>
+								&nbsp;
+							</span>
+						</div>
+						<div id="div_show_login" style="display: none;">
+							<div class="form-inline">
+								<input type="text" class="form-control input-sm" size = "10" placeholder="Username ..." id="login_name" />
+								<button type="button" class="btn btn-primary btn-sm" id="log_me_in">go!</button>
+							</div>
+						</div>
+					</div>
+					<br/>
+					<div id='holidays_taken_id'></div>
+					<br/>
+					<div id='blacklist_days_id'></div>
+<hr/>
+<p class="footer_legal">
+	<small>Odwiedz mnie na <a id="go_to_github" href="javacript: void()">Github</a>'ie !<br/>Ostatnia aktualizacja: APP_VERSION</small>
+</p>
+				</div>
+
+				<div class="col-md-9">
+					<p>&nbsp;</p>
+					<div id='calendar_id'></div>
+
+					<div class="row">
+						<div class="col-md-8">
+							<div id='options_id'></div>
+							<div id='results_id'></div>
+						</div>
+						<div class="col-md-4">
+							<br/>
+							<div id='summary_id'></div>
+						</div>
+					</div>
+					<br/>
+				</div>
+			</div>
+		</span>
+
+
+	</div>
+</body>
+
+<div class="modal" id="edit_taken_holiday" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog " >
+	<div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="caption">Modal title</h4>
+	  </div>
+	  <div class="modal-body">
+
+			<form id="add_holiday" class="form-horizontal">
+				<div class="form-group">
+					<label for="comment" class="col-sm-3 control-label">Komentarz</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control input-sm" placeholder="Komentarz" id="comment" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="datepicker_d2" class="col-sm-3 control-label">Zakres dat</label>
+					<div class="col-sm-8">
+					<div class="input-daterange input-group" id="datepicker_d2">
+						<span class="input-group-addon">Od</span>
+						<input type="text" class="input-sm form-control" name="start" placeholder="data początkowa" id="h_from"/>
+						<span class="input-group-addon">Do</span>
+						<input type="text" class="input-sm form-control" name="end"  placeholder="data końcowa" id="h_to"/>
+					</div>
+					</div>
+				</div>
+
+				<div id = "options_for_holiday">
+					<div class="form-group">
+						<label for="option_unpaid_leave" class="col-sm-3 control-label">Urlop bezpłatny</label>
+						<div class="col-sm-8">
+							 <div class="checkbox">
+								<label>
+									<input type="checkbox" style="margin: 1px 0 0 -20px;" id="option_unpaid_leave">
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="option_on_demand" class="col-sm-3 control-label">Urlop na żądanie</label>
+						<div class="col-sm-8">
+							 <div class="checkbox">
+								<label>
+									<input type="checkbox" style="margin: 1px 0 0 -20px;" id="option_on_demand">
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</form>
+
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-danger" id="b_remove">Usuń</button>
+		<button type="button" class="btn btn-primary" id="b_update">Aktualizuj</button>
+		<button type="button" class="btn btn-primary" id="b_add">Dodaj</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<div class="modal" id="edit_user_details" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Edytuj ustawienia użytkownika</h4>
+	  </div>
+	  <div class="modal-body">
+
+			<form class="form-horizontal">
+
+					<div class="form-group">
+						<label for="human_name_id" class="col-sm-5 control-label">Czytelna nazwa użytkownika</label>
+						 <div class="col-sm-5">
+							<input type="text" placeholder="Czytelna nazwa użytkownika" id="human_name_id" class="input-sm form-control" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="languages_id" class="col-sm-5 control-label">Kraj wyświetlania świąt</label>
+						 <div class="col-sm-5">
+						<select id="languages_id" class="input-sm form-control" ></select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="locale_id" class="col-sm-5 control-label">Język wyświetlania strony</label>
+						 <div class="col-sm-5">
+						<select id="locale_id" class="input-sm form-control" ></select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="leave_days_for_this_year" class="col-sm-5 control-label">Liczba dni urlopu</label>
+						 <div class="col-sm-5">
+							<input type="text" size="2" placeholder="Number of leave days per year" class="input-sm form-control" id="leave_days_for_this_year" />
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="holiday_on_sat_extends_holiday" class="col-sm-5 control-label">Święto w sobotę przedłuża urlop o jeden dzień</label>
+						 <div class="col-sm-5">
+							 <div class="checkbox">
+								<label>
+									<input type="checkbox" id="holiday_on_sat_extends_holiday">
+								</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-5 control-label"> </label>
+
+						 <div class="col-sm-5">
+							<div class="btn-group ">
+							  <button type="button" class="btn btn-danger">Niebezpieczne akcje</button>
+							  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+								<span class="caret"></span>
+								<span class="sr-only">Toggle Dropdown</span>
+							  </button>
+
+							  <ul class="dropdown-menu" role="menu">
+								<li><a href="#" id="export_as_json">Eksportuj dane użytkownika jako JSON</a></li>
+								<li><a href="#" id="import_from_json">Importuj dane użytkownika z JSON</a></li>
+								<li><a href="#" id="remove_account">Usuń konto</a></li>
+							  </ul>
+							</div>
+						 </div>
+
+					</div>
+
+			</form>
+
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-primary" id="b_update">Aktualizuj</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Anuluj</button>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<div class="modal" id="text_area_prompt_id" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="caption">Modal title</h4>
+	  </div>
+	  <div class="modal-body">
+			<textarea id ="text_area_prompt_content_id" rows="20" class="form-control" style=" white-space: pre;"></textarea>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-warning" id="b_import">Import</button>
+		<button type="button" class="btn btn-default" data-dismiss="modal">Done</button>
+	  </div>
+	</div>
+  </div>
+</div>
+
+<div class="modal" id="yes_no_dialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" >
+	<div class="modal-content">
+	  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Czy jesteś pewien ?</h4>
+	  </div>
+	  <div class="modal-body">
+			<p>Wyniki tej operacji nie może zostać cofnięty!</p>
+	  </div>
+	  <div class="modal-footer">
+		<button type="button" class="btn btn-danger" id="b_yes">Tak</button>
+		<button type="button" class="btn btn-default" id="b_no">Nie</button>
+	  </div>
+	</div>
+  </div>
+</div>
+
+</html>
