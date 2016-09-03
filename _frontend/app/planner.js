@@ -1008,14 +1008,6 @@ function edit_holiday(event, holiday, index) {
     });
 }
 
-function export_as_json_action() {
-    var nd = $("#text_area_prompt_id");
-    nd.find("#caption").text(translate("Export as JSON"));
-    nd.find("#text_area_prompt_content_id").val(JSON.stringify(user_data));
-    nd.find("#b_import").off('click').hide();
-    nd.modal();
-}
-
 function are_you_sure_dialog(callback_yes, callback_no) {
     var nd = $("#yes_no_dialog");
     nd.find("#b_yes").off('click').click(function () {
@@ -1029,21 +1021,6 @@ function are_you_sure_dialog(callback_yes, callback_no) {
     nd.modal({
         backdrop: "static"
     });
-}
-
-function import_from_json_action() {
-    var nd = $("#text_area_prompt_id");
-    nd.find("#caption").text(translate("Import from JSON"));
-    nd.find("#text_area_prompt_content_id").val("");
-    nd.find("#b_import").off('click').show().click(function () {
-        are_you_sure_dialog(function () {
-            var user_data_json = nd.find("#text_area_prompt_content_id").val();
-            backend_save_user(get_uid(), user_data_json);
-            location.reload();
-        }, null);
-
-    });
-    nd.modal();
 }
 
 function set_locale(locale) {
@@ -1080,9 +1057,6 @@ function display_user_seetings() {
     var nd = $("#edit_user_details");
 
     nd.find("#human_name_id").val(user_data.meta.username);
-    nd.find("#languages_id").val(user_data.country);
-    nd.find("#locale_id").val(moment_locale._abbr);
-
     nd.find("#leave_days_for_this_year").val(user_data.opts.leave_days);
 
     nd.find("#holiday_on_sat_extends_holiday").prop('checked',
@@ -1091,11 +1065,8 @@ function display_user_seetings() {
     nd.find("#b_update").off('click').click(function () {
         console.log("updating user details");
 
-        set_locale(nd.find("#locale_id").val());
-
         user_data.meta.username = nd.find("#human_name_id").val();
         user_data.meta.locale = moment_locale._abbr;
-        user_data.country = nd.find("#languages_id").val();
         user_data.opts.leave_days = nd.find("#leave_days_for_this_year").val();
         user_data.opts.holiday_on_sat_extends_holiday = nd.find("#holiday_on_sat_extends_holiday").is(':checked');
 
@@ -1105,12 +1076,6 @@ function display_user_seetings() {
         save_and_close(nd);
     });
 
-    nd.find("#export_as_json").off('click').click(function () {
-        export_as_json_action();
-    });
-    nd.find("#import_from_json").off('click').click(function () {
-        import_from_json_action();
-    });
     nd.find("#remove_account").off('click').click(function () {
         console.log("removing user");
 

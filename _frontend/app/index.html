@@ -111,8 +111,8 @@
 			<div class="row">
 				<div class="col-md-3">
 					<div align='center' >
-						<h1 style="margin-bottom:0px">Moje Urlopy</h1>
-						<p><small><i> &mdash; ponieważ wakacje się liczą</i></small></p>
+						<h1 style="margin-bottom:0px">LiczUrlop.pl</h1>
+						<p><small><i> &mdash; ponieważ urlopy się liczą</i></small></p>
 						<div id="ajax_loader">
 							<i class="fa fa-spinner fa-spin"></i> Ładuje ...
 						</div>
@@ -140,9 +140,6 @@
 					<br/>
 					<div id='blacklist_days_id'></div>
 <hr/>
-<p class="footer_legal">
-	<small>Odwiedz mnie na <a id="go_to_github" href="javacript: void()">Github</a>'ie !<br/>Ostatnia aktualizacja: APP_VERSION</small>
-</p>
 				</div>
 
 				<div class="col-md-9">
@@ -253,20 +250,6 @@
 					</div>
 
 					<div class="form-group">
-						<label for="languages_id" class="col-sm-5 control-label">Kraj wyświetlania świąt</label>
-						 <div class="col-sm-5">
-						<select id="languages_id" class="input-sm form-control" ></select>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="locale_id" class="col-sm-5 control-label">Język wyświetlania strony</label>
-						 <div class="col-sm-5">
-						<select id="locale_id" class="input-sm form-control" ></select>
-						</div>
-					</div>
-
-					<div class="form-group">
 						<label for="leave_days_for_this_year" class="col-sm-5 control-label">Liczba dni urlopu</label>
 						 <div class="col-sm-5">
 							<input type="text" size="2" placeholder="Number of leave days per year" class="input-sm form-control" id="leave_days_for_this_year" />
@@ -284,26 +267,7 @@
 						</div>
 					</div>
 
-					<div class="form-group">
-						<label class="col-sm-5 control-label"> </label>
-
-						 <div class="col-sm-5">
-							<div class="btn-group ">
-							  <button type="button" class="btn btn-danger">Niebezpieczne akcje</button>
-							  <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<span class="caret"></span>
-								<span class="sr-only">Toggle Dropdown</span>
-							  </button>
-
-							  <ul class="dropdown-menu" role="menu">
-								<li><a href="#" id="export_as_json">Eksportuj dane użytkownika jako JSON</a></li>
-								<li><a href="#" id="import_from_json">Importuj dane użytkownika z JSON</a></li>
-								<li><a href="#" id="remove_account">Usuń konto</a></li>
-							  </ul>
-							</div>
-						 </div>
-
-					</div>
+				<button type="button" class="btn btn-danger" id="remove_account">Usuń konto</button>
 
 			</form>
 

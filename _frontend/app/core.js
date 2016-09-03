@@ -4,7 +4,7 @@ var moment_locale = moment.localeData("pl");
 var moment_locale_en  = moment.localeData('en_GB');
 
 function is_empty(str) {
-    return str == null || str === undefined || str.trim() === "";
+    return str == null || str.trim() === "";
 }
 
 function translate(id) {
@@ -17,7 +17,7 @@ function get_public_holidays() {
 
 Date.prototype.fmtMMDDYYYY = function () {
     return moment(this).format("MM/DD/YYYY");
-}
+};
 
 function fmtMMDDYYYY(date) {
     if (date == null || date === "") return "";
@@ -26,24 +26,24 @@ function fmtMMDDYYYY(date) {
 
 Date.prototype.is_saturday = function () {
     return this.getDay() == 6;
-}
+};
 
 Date.prototype.is_sunday = function () {
     return this.getDay() === 0;
-}
+};
 
 Date.prototype.is_a_mid_week = function () {
     var d = this.getDay();
     return d == 2 || d == 3 || d == 4;
-}
+};
 
 Date.prototype.inc = function () {
     this.setDate(this.getDate() + 1);
-}
+};
 
 Date.prototype.month_str = function () {
     return moment_locale.months(moment(this));
-}
+};
 
 Date.prototype.get_holiday = function () {
 
@@ -59,11 +59,11 @@ Date.prototype.get_holiday = function () {
         }
     }
     return null;
-}
+};
 
 Date.prototype.is_holiday = function () {
     return this.get_holiday() != null;
-}
+};
 
 function iterate(start_date, end_date, callback) {
     var curr_date = new Date(start_date);
