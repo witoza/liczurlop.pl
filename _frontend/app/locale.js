@@ -1,8 +1,4 @@
-﻿function browser_locale() {
-	return window.navigator.userLanguage || window.navigator.language;
-}
-
-const public_holidays = [
+﻿const public_holidays = [
     {date: new Date("1/1/2016").getTime(), name : "Nowy Rok, Swietej Bozej Rodzicielki"},
     {date: new Date("1/6/2016").getTime(), name : "Trzech Króli (Objawienie Panskie)"},
     {date: new Date("3/27/2016").getTime(), name : "Wielkanoc"},

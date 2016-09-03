@@ -1,7 +1,7 @@
 // is always
 var user_data;
 var moment_locale = moment.localeData("pl");
-var moment_locale_en  = moment.localeData('en_GB');
+var moment_locale_en = moment.localeData('en_GB');
 
 function is_empty(str) {
     return str == null || str.trim() === "";
@@ -9,10 +9,6 @@ function is_empty(str) {
 
 function translate(id) {
     return id;
-}
-
-function get_public_holidays() {
-    return public_holidays;
 }
 
 Date.prototype.fmtMMDDYYYY = function () {
@@ -46,8 +42,6 @@ Date.prototype.month_str = function () {
 };
 
 Date.prototype.get_holiday = function () {
-
-    var public_holidays = get_public_holidays();
 
     var date_day_dt = this.getTime();
     for (var i = 0; i < public_holidays.length; ++i) {
@@ -256,7 +250,7 @@ function get_max_free_days_a_year(holidays_left) {
 }
 
 function get_uid() {
-    var uid = window.location.search.substring(1);
+    const uid = window.location.search.substring(1);
     if (uid === "") return "anonymous";
     return uid;
 }

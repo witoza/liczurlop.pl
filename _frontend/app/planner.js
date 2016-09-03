@@ -1112,9 +1112,6 @@ function fix_user_data() {
 
 $(document).ready(function () {
 
-    var tl = browser_locale();
-    console.log("browser locale", tl);
-
     $(document).on({
         ajaxStart: function () {
             $('html').css('cursor', 'progress');
