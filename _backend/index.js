@@ -184,7 +184,7 @@ app.post('/user/save/:id', function (req, res, next) {
         console.log("creating new user", uid);
     }
 
-    var user = JSON.parse(req.body);
+    var user = req.body;
     user.meta.uid = uid;
 
     STORAGE[uid] = user;
