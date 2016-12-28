@@ -25,7 +25,21 @@
     {date: new Date("11/1/2017").getTime(), name: "Wszystkich Świetych"},
     {date: new Date("11/11/2017").getTime(), name: "Święto Niepodleglosci"},
     {date: new Date("12/25/2017").getTime(), name: "Boże Narodzenie (pierwszy dzień)"},
-    {date: new Date("12/26/2017").getTime(), name: "Boże Narodzenie (drugi dzień)"}
+    {date: new Date("12/26/2017").getTime(), name: "Boże Narodzenie (drugi dzień)"},
+
+    {date: new Date("1/1/2018").getTime(), name: "Nowy Rok, Świetej Bożej Rodzicielki"},
+    {date: new Date("1/6/2018").getTime(), name: "Trzech Króli (Objawienie Pańskie)"},
+    {date: new Date("4/1/2018").getTime(), name: "Wielkanoc"},
+    {date: new Date("4/2/2018").getTime(), name: "Poniedzialek Wielkanocny"},
+    {date: new Date("5/1/2018").getTime(), name: "Święto Pracy"},
+    {date: new Date("5/3/2018").getTime(), name: "Święto Konstytucji 3 Maja"},
+    {date: new Date("5/20/2018").getTime(), name: "Zesłanie Ducha Swietego (Zielone Swiatki)"},
+    {date: new Date("5/31/2018").getTime(), name: "Boże Ciało"},
+    {date: new Date("8/15/2018").getTime(), name: "Święto Wojska Polskiego, Wniebowziecie Najswietszej Maryi Panny"},
+    {date: new Date("11/1/2018").getTime(), name: "Wszystkich Świetych"},
+    {date: new Date("11/11/2018").getTime(), name: "Święto Niepodleglosci"},
+    {date: new Date("12/25/2018").getTime(), name: "Boże Narodzenie (pierwszy dzień)"},
+    {date: new Date("12/26/2018").getTime(), name: "Boże Narodzenie (drugi dzień)"},
 ];
 
 const TRANSLATE = {

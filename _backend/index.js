@@ -65,8 +65,8 @@ STORAGE["wito"] = {
         username: "witold z",
         created_time: new Date(),
     },
-    callendar_begin: "01/01/2016",
-    callendar_end: "02/01/2017",
+    callendar_begin: "01/01/2017",
+    callendar_end: "02/01/2018",
     opts: {
         leave_days: 39,
         from: null,
@@ -131,8 +131,8 @@ function user_data_default(uid) {
             username: null,
             created_time: new Date(),
         },
-        callendar_begin: "01/01/2016",
-        callendar_end: "02/01/2017",
+        callendar_begin: "12/01/2016",
+        callendar_end: "02/01/2018",
         opts: {
             leave_days: 26,
             from: null,
