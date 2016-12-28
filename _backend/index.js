@@ -136,7 +136,7 @@ function user_data_default(uid) {
         opts: {
             leave_days: 26,
             from: null,
-            to: "12/31/2016",
+            to: "12/31/2017",
             start_in_the_mid_week: false,
             finish_in_the_mid_week: false,
             holiday_on_sat_extends_holiday: true,
